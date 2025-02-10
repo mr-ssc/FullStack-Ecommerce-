@@ -1,0 +1,162 @@
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 18px rgb(0, 0, 0);
+}
+
+h2, h3 {
+  text-align: center;
+  color: #333;
+}
+
+/* Form Styles */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+form input {
+  flex: 1 1 calc(25% - 10px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+form input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+form button {
+  flex: 1 1 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th, table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+table th {
+  background-color: #007bff;
+  color: #fff;
+}
+
+table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Button Styles */
+button.edit-btn, button.delete-btn {
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+button.edit-btn {
+  background-color: #28a745;
+  color: #fff;
+}
+
+button.delete-btn {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+button.edit-btn:hover, button.delete-btn:hover {
+  transform: scale(1.1);
+}
+
+button.edit-btn:hover {
+  background-color: #218838;
+}
+
+button.delete-btn:hover {
+  background-color: #c82333;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.container {
+  animation: fadeIn 0.5s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  form input {
+    flex: 1 1 calc(50% - 10px);
+  }
+
+  table th, table td {
+    padding: 8px;
+  }
+
+  button.edit-btn, button.delete-btn {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  form input {
+    flex: 1 1 100%;
+  }
+
+  table th, table td {
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  button.edit-btn, button.delete-btn {
+    padding: 3px 6px;
+    font-size: 12px;
+  }
+}
