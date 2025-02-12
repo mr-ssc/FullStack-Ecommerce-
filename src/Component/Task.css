@@ -1,0 +1,222 @@
+/* Task.css */
+
+/* General Styles */
+.task-management {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.task-management h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Task Form Styles */
+.task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+    animation: slideIn 0.5s ease-in-out;
+}
+
+.task-form input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.task-form input:focus {
+    border-color: #28a745;
+    outline: none;
+}
+
+.task-form button {
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.task-form button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+/* Task List Styles */
+.task-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.task-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: white;
+    animation: fadeIn 0.5s ease-in-out;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.task-list li:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+.task-list li strong {
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.task-list li button {
+    padding: 8px 12px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.task-list li button:nth-child(2) {
+    background-color: #ffc107;
+    color: white;
+}
+
+.task-list li button:nth-child(2):hover {
+    background-color: #e0a800;
+    transform: scale(1.05);
+}
+
+.task-list li button:nth-child(3) {
+    background-color: #dc3545;
+    color: white;
+}
+
+.task-list li button:nth-child(3):hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 2560px) {
+    .task-management {
+        max-width: 2000px;
+    }
+}
+
+@media (max-width: 1440px) {
+    .task-management {
+        max-width: 1200px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .task-management {
+        max-width: 900px;
+    }
+
+    .task-form {
+        flex-direction: column;
+    }
+
+    .task-list li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .task-list li button {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .task-management {
+        max-width: 700px;
+    }
+
+    .task-form input, .task-form button {
+        width: 100%;
+    }
+
+    .task-list li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .task-list li button {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 425px) {
+    .task-management {
+        max-width: 400px;
+    }
+
+    .task-form input, .task-form button {
+        width: 100%;
+    }
+
+    .task-list li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .task-list li button {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 375px) {
+    .task-management {
+        max-width: 350px;
+    }
+}
+
+@media (max-width: 320px) {
+    .task-management {
+        max-width: 300px;
+    }
+}

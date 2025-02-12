@@ -1,115 +1,122 @@
-
+/* General Styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
+  background-color: #f4f4f4;
   margin: 0;
   padding: 0;
 }
 
 .container {
   max-width: 1200px;
-  margin: 20px auto;
+  margin: 0 auto;
   padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 18px rgb(0, 0, 0);
 }
 
-h2, h3 {
+.title {
   text-align: center;
   color: #333;
+  animation: fadeIn 1s ease-in-out;
 }
 
 /* Form Styles */
-form {
+.form {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 20px;
+  animation: slideIn 1s ease-in-out;
 }
 
-form input {
-  flex: 1 1 calc(25% - 10px);
+.form input {
+  flex: 1 1 calc(33.333% - 20px);
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
-  transition: border-color 0.3s ease;
 }
 
-form input:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-form button {
+.submit-btn {
   flex: 1 1 100%;
   padding: 10px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: #28a745;
+  color: white;
   border: none;
   border-radius: 5px;
-  font-size: 16px;
   cursor: pointer;
+  font-size: 16px;
   transition: background-color 0.3s ease;
 }
 
-form button:hover {
-  background-color: #0056b3;
+.submit-btn:hover {
+  background-color: #218838;
+}
+
+/* Filters Styles */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  animation: slideIn 1s ease-in-out;
+}
+
+.search-input, .select {
+  flex: 1 1 calc(33.333% - 20px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
 }
 
 /* Table Styles */
-table {
+.table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-bottom: 20px;
+  animation: fadeIn 1s ease-in-out;
 }
 
-table th, table td {
+.table th, .table td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
-table th {
+.table th {
   background-color: #007bff;
-  color: #fff;
+  color: white;
 }
 
-table tr:hover {
+.table-row:hover {
   background-color: #f1f1f1;
 }
 
-/* Button Styles */
-button.edit-btn, button.delete-btn {
+/* Action Buttons */
+.action-btn {
   padding: 5px 10px;
-  margin: 0 5px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
-  transition: transform 0.2s ease, background-color 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
-button.edit-btn {
-  background-color: #28a745;
-  color: #fff;
+.edit-btn {
+  background-color: #ffc107;
+  color: black;
+  margin-right: 5px;
 }
 
-button.delete-btn {
+.edit-btn:hover {
+  background-color: #e0a800;
+}
+
+.delete-btn {
   background-color: #dc3545;
-  color: #fff;
+  color: white;
 }
 
-button.edit-btn:hover, button.delete-btn:hover {
-  transform: scale(1.1);
-}
-
-button.edit-btn:hover {
-  background-color: #218838;
-}
-
-button.delete-btn:hover {
+.delete-btn:hover {
   background-color: #c82333;
 }
 
@@ -117,46 +124,87 @@ button.delete-btn:hover {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
     transform: translateY(0);
+    opacity: 1;
   }
 }
 
-.container {
-  animation: fadeIn 0.5s ease;
+/* Responsive Styles */
+@media (max-width: 2560px) {
+  .form input, .search-input, .select {
+    flex: 1 1 calc(25% - 20px);
+  }
 }
 
-/* Responsive Design */
+@media (max-width: 1440px) {
+  .form input, .search-input, .select {
+    flex: 1 1 calc(33.333% - 20px);
+  }
+}
+
+@media (max-width: 1024px) {
+  .form input, .search-input, .select {
+    flex: 1 1 calc(50% - 20px);
+  }
+}
+
 @media (max-width: 768px) {
-  form input {
-    flex: 1 1 calc(50% - 10px);
+  .form input, .search-input, .select {
+    flex: 1 1 100%;
   }
 
-  table th, table td {
+  .table th, .table td {
     padding: 8px;
   }
+}
 
-  button.edit-btn, button.delete-btn {
+@media (max-width: 425px) {
+  .container {
+    padding: 10px;
+  }
+
+  .form input, .search-input, .select {
+    font-size: 14px;
+  }
+
+  .table th, .table td {
+    padding: 6px;
+  }
+
+  .action-btn {
     padding: 4px 8px;
     font-size: 12px;
   }
 }
 
-@media (max-width: 480px) {
-  form input {
-    flex: 1 1 100%;
-  }
-
-  table th, table td {
-    padding: 6px;
-    font-size: 14px;
-  }
-
-  button.edit-btn, button.delete-btn {
-    padding: 3px 6px;
+@media (max-width: 375px) {
+  .form input, .search-input, .select {
     font-size: 12px;
+  }
+
+  .table th, .table td {
+    padding: 4px;
+  }
+}
+
+@media (max-width: 320px) {
+  .form input, .search-input, .select {
+    font-size: 10px;
+  }
+
+  .table th, .table td {
+    padding: 2px;
   }
 }
