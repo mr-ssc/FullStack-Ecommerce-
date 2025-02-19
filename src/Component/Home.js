@@ -6,7 +6,7 @@ const Home = () => {
         <div>
             {/* <Crud /> */}
 
-            <button><a href="/Crud">Home</a></button>
+            <button><a href="/Crud">Crud</a></button>
             <button><a href="/Task">Task</a></button>
                 
 

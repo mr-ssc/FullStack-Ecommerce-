@@ -1,222 +1,166 @@
-/* Task.css */
-
 /* General Styles */
 .task-management {
+    font-family: Arial, sans-serif;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    font-family: 'Arial', sans-serif;
     background-color: #f9f9f9;
-    border-radius: 10px;
+    border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.task-management h2 {
-    text-align: center;
+h2 {
     color: #333;
+    text-align: center;
     margin-bottom: 20px;
-    font-size: 2rem;
-    animation: fadeIn 1s ease-in-out;
 }
 
 /* Task Form Styles */
 .task-form {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
     margin-bottom: 20px;
-    animation: slideIn 0.5s ease-in-out;
+}
+
+.task-form input,
+.task-form select,
+.task-form button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
 }
 
 .task-form input {
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
+    flex: 1 1 200px;
 }
 
-.task-form input:focus {
-    border-color: #28a745;
-    outline: none;
+.task-form select {
+    flex: 1 1 150px;
 }
 
 .task-form button {
-    padding: 12px;
+    flex: 1 1 100px;
     background-color: #28a745;
     color: white;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease;
 }
 
 .task-form button:hover {
     background-color: #218838;
-    transform: scale(1.05);
 }
 
-/* Task List Styles */
-.task-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-.task-list li {
+/* Filters Styles */
+.filters {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filters input,
+.filters select {
+    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    background-color: white;
-    animation: fadeIn 0.5s ease-in-out;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    border-radius: 4px;
+    font-size: 16px;
 }
 
-.task-list li:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transform: translateY(-5px);
+.filters input {
+    flex: 1 1 200px;
 }
 
-.task-list li strong {
-    color: #333;
-    font-size: 1.1rem;
+.filters select {
+    flex: 1 1 150px;
 }
 
-.task-list li button {
-    padding: 8px 12px;
-    margin-left: 10px;
+/* Task Table Styles */
+.task-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.task-table th,
+.task-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dddddd;
+}
+
+.task-table th {
+    background-color: #00b7ff85;
+    font-weight: bold;
+}
+
+.task-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+.task-table button {
+    padding: 6px 12px;
+    margin-right: 5px;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease;
 }
 
-.task-list li button:nth-child(2) {
+.task-table button:nth-child(1) {
     background-color: #ffc107;
-    color: white;
+    color: black;
 }
 
-.task-list li button:nth-child(2):hover {
+.task-table button:nth-child(1):hover {
     background-color: #e0a800;
-    transform: scale(1.05);
 }
 
-.task-list li button:nth-child(3) {
+.task-table button:nth-child(2) {
     background-color: #dc3545;
     color: white;
 }
 
-.task-list li button:nth-child(3):hover {
+.task-table button:nth-child(2):hover {
     background-color: #c82333;
-    transform: scale(1.05);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .task-form,
+    .filters {
+        flex-direction: column;
+    }
+
+    .task-form input,
+    .task-form select,
+    .task-form button,
+    .filters input,
+    .filters select {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .task-table {
+        display: block;
+        overflow-x: auto;
+    }
 }
 
 /* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
-    }
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateY(-20px);
-        opacity: 0;
-    }
-    to {
         transform: translateY(0);
-        opacity: 1;
     }
 }
 
-/* Responsive Styles */
-@media (max-width: 2560px) {
-    .task-management {
-        max-width: 2000px;
-    }
-}
-
-@media (max-width: 1440px) {
-    .task-management {
-        max-width: 1200px;
-    }
-}
-
-@media (max-width: 1024px) {
-    .task-management {
-        max-width: 900px;
-    }
-
-    .task-form {
-        flex-direction: column;
-    }
-
-    .task-list li {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .task-list li button {
-        margin-top: 10px;
-    }
-}
-
-@media (max-width: 768px) {
-    .task-management {
-        max-width: 700px;
-    }
-
-    .task-form input, .task-form button {
-        width: 100%;
-    }
-
-    .task-list li {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .task-list li button {
-        width: 100%;
-        margin-top: 10px;
-    }
-}
-
-@media (max-width: 425px) {
-    .task-management {
-        max-width: 400px;
-    }
-
-    .task-form input, .task-form button {
-        width: 100%;
-    }
-
-    .task-list li {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .task-list li button {
-        width: 100%;
-        margin-top: 10px;
-    }
-}
-
-@media (max-width: 375px) {
-    .task-management {
-        max-width: 350px;
-    }
-}
-
-@media (max-width: 320px) {
-    .task-management {
-        max-width: 300px;
-    }
+.task-table tr {
+    animation: fadeIn 0.5s ease-in-out;
 }

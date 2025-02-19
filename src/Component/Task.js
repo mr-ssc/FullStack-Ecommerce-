@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./Task.css"; // Import the CSS file
+import "./Task.css";
 
 const Task = () => {
     const [tasks, setTasks] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [filterUser, setFilterUser] = useState("");
     const [formData, setFormData] = useState({
         title: "",
         due_date: "",
-        assigned_name: "",
+        fk_user_id: "",
     });
-    const [editId, setEditId] = useState(null); // To track which task is being edited
+    const [editId, setEditId] = useState(null);
 
-    // Fetch all tasks from backend
     const fetchTasks = async () => {
         try {
             const response = await axios.get("http://localhost:8989/task");
@@ -21,36 +23,44 @@ const Task = () => {
         }
     };
 
+    const fetchUsers = async () => {
+        try {
+            const response = await axios.get("http://localhost:8989/user");
+            setUsers(response.data);
+        } catch (error) {
+            console.error("Error fetching users:", error);
+        }
+    };
+
     useEffect(() => {
         fetchTasks();
+        fetchUsers();
     }, []);
 
-    // Handle input change
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // Add or Update Task
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const updatedData = { ...formData };
             if (editId) {
-                // Update existing task
-                await axios.put(`http://localhost:8989/task/update/${editId}`, formData);
+                await axios.put(`http://localhost:8989/task/update/${editId}`, updatedData);
             } else {
-                // Add new task
-                await axios.post("http://localhost:8989/task/create", formData);
+                await axios.post("http://localhost:8989/task/create", updatedData);
             }
             fetchTasks();
-            setFormData({ title: "", due_date: "", assigned_name: "" });
+            setFormData({ title: "", due_date: "", fk_user_id: "" });
             setEditId(null);
         } catch (error) {
             console.error("Error adding/updating task:", error);
+            alert("An error occurred while adding/updating the task.");
         }
     };
 
-    // Delete task
     const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this task?")) return;
         try {
             await axios.delete(`http://localhost:8989/task/delete/${id}`);
             fetchTasks();
@@ -59,38 +69,75 @@ const Task = () => {
         }
     };
 
-    // Edit task
     const handleEdit = (task) => {
         setFormData({
             title: task.title,
             due_date: task.due_date,
-            assigned_name: task.assigned_name,
+            fk_user_id: task.fk_user_id,
         });
         setEditId(task.id);
     };
 
+    const filteredTasks = tasks.filter(task =>
+        task.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        (filterUser ? task.fk_user_id === filterUser : true)
+    );
+
     return (
         <div className="task-management">
             <h2>Task Management</h2>
-            
-            {/* Task Form */}
+
             <form className="task-form" onSubmit={handleSubmit}>
                 <input type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Task Title" required />
                 <input type="date" name="due_date" value={formData.due_date} onChange={handleChange} required />
-                <input type="text" name="assigned_name" value={formData.assigned_name} onChange={handleChange} placeholder="Assigned To" required />
+                <select name="fk_user_id" value={formData.fk_user_id} onChange={handleChange} required>
+                    <option value="">Select User</option>
+                    {users.map((user) => (
+                        <option key={user.id} value={user.id}>{user.name}</option>
+                    ))}
+                </select>
                 <button type="submit">{editId ? "Update Task" : "Add Task"}</button>
             </form>
 
-            {/* Task List */}
-            <ul className="task-list">
-                {tasks.map((task) => (
-                    <li key={task.id}>
-                        <strong>{task.title}</strong> - {task.due_date} - {task.assigned_name}
-                        <button onClick={() => handleEdit(task)}>Edit</button>
-                        <button onClick={() => handleDelete(task.id)}>Delete</button>
-                    </li>
-                ))}
-            </ul>
+            <h2>Task List</h2>
+            <div className="filters">
+                <input
+                    type="text"
+                    placeholder="Search by task title..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <select value={filterUser} onChange={(e) => setFilterUser(e.target.value)}>
+                    <option value="">Filter by User</option>
+                    {users.map((user) => (
+                        <option key={user.id} value={user.id}>{user.name}</option>
+                    ))}
+                </select>
+            </div>
+
+            <table className="task-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Due Date</th>
+                        <th>Assigned User</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredTasks.map((task) => (
+                        <tr key={task.id}>
+                            <td>{task.title}</td>
+                            <td>{task.due_date}</td>
+                            <td>{task.fk_user_name}</td>
+                            <td>
+                                <button onClick={() => handleEdit(task)}>Edit</button>
+                                <button onClick={() => handleDelete(task.id)}>Delete</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };

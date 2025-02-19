@@ -64,28 +64,23 @@ const Crud = () => {
 
   const filterByAgeRange = (user) => {
     const age = user.age;
-    if (filterAgeRange === "1-10") return age >= 1 && age <= 10;
-    if (filterAgeRange === "11-20") return age >= 11 && age <= 20;
-    if (filterAgeRange === "21-30") return age >= 21 && age <= 30;
-    if (filterAgeRange === "31-40") return age >= 31 && age <= 40;
-    if (filterAgeRange === "41-50") return age >= 41 && age <= 50;
-    if (filterAgeRange === "51-100") return age >= 51 && age <= 100;
-    return true; // If no filter, show all users
+    const ageRanges = {
+      "1-10": [1, 10], "11-20": [11, 20], "21-30": [21, 30], "31-40": [31, 40], "41-50": [41, 50], "51-100": [51, 100]
+    };
+    return filterAgeRange ? (age >= ageRanges[filterAgeRange][0] && age <= ageRanges[filterAgeRange][1]) : true;
   };
 
   const filteredUsers = users
-    .filter((user) =>
-      user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.address.toLowerCase().includes(searchQuery.toLowerCase())
-    )
+    .filter(user => user.name.toLowerCase().includes(searchQuery.toLowerCase()) || user.email.toLowerCase().includes(searchQuery.toLowerCase()) || user.address.toLowerCase().includes(searchQuery.toLowerCase()))
     .filter(filterByAgeRange)
     .sort((a, b) => {
-      if (sortType === "salary-asc") return a.salary - b.salary;
-      if (sortType === "salary-desc") return b.salary - a.salary;
-      if (sortType === "age-asc") return a.age - b.age;
-      if (sortType === "age-desc") return b.age - a.age;
-      return 0;
+      const sorting = {
+        "salary-asc": a.salary - b.salary,
+        "salary-desc": b.salary - a.salary,
+        "age-asc": a.age - b.age,
+        "age-desc": b.age - a.age
+      };
+      return sortType ? sorting[sortType] : 0;
     });
 
   return (
@@ -93,12 +88,9 @@ const Crud = () => {
       <h2 className="title">CRUD Function</h2>
 
       <form onSubmit={handleSubmit} className="form">
-        <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
-        <input type="number" name="age" placeholder="Age" value={formData.age} onChange={handleChange} required />
-        <input type="text" name="address" placeholder="Address" value={formData.address} onChange={handleChange} required />
-        <input type="text" name="phone_no" placeholder="Phone No" value={formData.phone_no} onChange={handleChange} required />
-        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-        <input type="number" name="salary" placeholder="Salary" value={formData.salary} onChange={handleChange} required />
+        {Object.keys(formData).map(key => (
+          <input key={key} type={key === "email" ? "email" : "text"} name={key} placeholder={key.replace("_", " ")} value={formData[key]} onChange={handleChange} required />
+        ))}
         <button type="submit" className="submit-btn">{editId ? "Update User" : "Add User"}</button>
       </form>
 
@@ -106,36 +98,24 @@ const Crud = () => {
 
       <div className="filters">
         <input type="text" placeholder="Search by Name, Email, Address" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="search-input" />
-        
         <select onChange={(e) => setFilterAgeRange(e.target.value)} className="select">
           <option value="">All Age Ranges</option>
-          <option value="1-10">1 - 10</option>
-          <option value="11-20">11 - 20</option>
-          <option value="21-30">21 - 30</option>
-          <option value="31-40">31 - 40</option>
-          <option value="41-50">41 - 50</option>
-          <option value="51-100">51 - 100</option>
+          {["1-10", "11-20", "21-30", "31-40", "41-50", "51-100"].map(range => <option key={range} value={range}>{range}</option>)}
         </select>
-
         <select onChange={(e) => setSortType(e.target.value)} className="select">
           <option value="">Sort By</option>
-          <option value="salary-asc">Salary (Low to High)</option>
-          <option value="salary-desc">Salary (High to Low)</option>
-          <option value="age-asc">Age (Young to Old)</option>
-          <option value="age-desc">Age (Old to Young)</option>
+          {[["salary-asc", "Salary (Low to High)"], ["salary-desc", "Salary (High to Low)"], ["age-asc", "Age (Young to Old)"], ["age-desc", "Age (Old to Young)"]].map(([value, label]) => <option key={value} value={value}>{label}</option>)}
         </select>
       </div>
 
       <table className="table">
         <thead>
-          <tr>
-            <th>Name</th><th>Age</th><th>Address</th><th>Phone No</th><th>Email</th><th>Salary</th><th>Actions</th>
-          </tr>
+          <tr>{["Name", "Age", "Address", "Phone No", "Email", "Salary", "Actions"].map(header => <th key={header}>{header}</th>)}</tr>
         </thead>
         <tbody>
-          {filteredUsers.map((user) => (
+          {filteredUsers.map(user => (
             <tr key={user.id} className="table-row">
-              <td>{user.name}</td><td>{user.age}</td><td>{user.address}</td><td>{user.phone_no}</td><td>{user.email}</td><td>{user.salary}</td>
+              {Object.values(user).slice(1).map((value, index) => <td key={index}>{value}</td>)}
               <td>
                 <button onClick={() => handleEdit(user)} className="action-btn edit-btn">Edit</button>
                 <button onClick={() => handleDelete(user.id)} className="action-btn delete-btn">Delete</button>
