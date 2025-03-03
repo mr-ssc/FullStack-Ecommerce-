@@ -1,0 +1,117 @@
+/* SubCategory.css */
+
+/* General Styles */
+.subcategory-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.subcategory-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Form Styles */
+.subcategory-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.subcategory-form input,
+.subcategory-form select,
+.subcategory-form button {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.subcategory-form button {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.subcategory-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Table Styles */
+.subcategory-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.subcategory-table th,
+.subcategory-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+.subcategory-table th {
+    background-color: #0579eeb6;
+}
+
+.subcategory-table img {
+    width: 50px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.subcategory-table button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    font-size: 14px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.subcategory-table button.edit {
+    background-color: #ffc107;
+    color: black;
+}
+
+.subcategory-table button.delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.subcategory-table button:hover {
+    opacity: 0.8;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.subcategory-table tr {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .subcategory-form {
+        flex-direction: column;
+    }
+
+    .subcategory-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .subcategory-table th,
+    .subcategory-table td {
+        white-space: nowrap;
+    }
+}

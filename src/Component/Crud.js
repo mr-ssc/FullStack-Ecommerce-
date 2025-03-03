@@ -10,10 +10,12 @@ const Crud = () => {
   const [filterAgeRange, setFilterAgeRange] = useState("");
   const [sortType, setSortType] = useState("");
 
+  // Fetch users on component mount
   useEffect(() => {
     fetchUsers();
   }, []);
 
+  // Fetch users from backend
   const fetchUsers = async () => {
     try {
       const res = await axios.get("http://localhost:8989/user");
@@ -23,19 +25,21 @@ const Crud = () => {
     }
   };
 
+  // Handle form input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Handle form submission for create and update
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (editId) {
-        await axios.put(`http://localhost:8989/update/${editId}`, formData);
+        await axios.put(`http://localhost:8989/user/update/${editId}`, formData);
         alert("User updated successfully");
         setEditId(null);
       } else {
-        await axios.post("http://localhost:8989/create", formData);
+        await axios.post("http://localhost:8989/user/create", formData);
         alert("User added successfully");
       }
       setFormData({ name: "", age: "", address: "", phone_no: "", email: "", salary: "" });
@@ -45,23 +49,33 @@ const Crud = () => {
     }
   };
 
+  // Edit user details
   const handleEdit = (user) => {
     setEditId(user.id);
-    setFormData({ name: user.name, age: user.age, address: user.address, phone_no: user.phone_no, email: user.email, salary: user.salary });
+    setFormData({
+      name: user.name,
+      age: user.age,
+      address: user.address,
+      phone_no: user.phone_no,
+      email: user.email,
+      salary: user.salary,
+    });
   };
 
+  // Delete user from frontend and backend
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
         await axios.delete(`http://localhost:8989/delete/${id}`);
         alert("User deleted successfully");
-        fetchUsers();
+        setUsers(users.filter(user => user.id !== id)); // Update state to reflect deletion
       } catch (error) {
         console.error("Error deleting user:", error);
       }
     }
   };
 
+  // Filter users by age range
   const filterByAgeRange = (user) => {
     const age = user.age;
     const ageRanges = {
@@ -70,23 +84,25 @@ const Crud = () => {
     return filterAgeRange ? (age >= ageRanges[filterAgeRange][0] && age <= ageRanges[filterAgeRange][1]) : true;
   };
 
+  // Apply search and filters
   const filteredUsers = users
-    .filter(user => user.name.toLowerCase().includes(searchQuery.toLowerCase()) || user.email.toLowerCase().includes(searchQuery.toLowerCase()) || user.address.toLowerCase().includes(searchQuery.toLowerCase()))
+    .filter(user => user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.address.toLowerCase().includes(searchQuery.toLowerCase()))
     .filter(filterByAgeRange)
     .sort((a, b) => {
-      const sorting = {
-        "salary-asc": a.salary - b.salary,
-        "salary-desc": b.salary - a.salary,
-        "age-asc": a.age - b.age,
-        "age-desc": b.age - a.age
-      };
-      return sortType ? sorting[sortType] : 0;
+      if (sortType === "salary-asc") return a.salary - b.salary;
+      if (sortType === "salary-desc") return b.salary - a.salary;
+      if (sortType === "age-asc") return a.age - b.age;
+      if (sortType === "age-desc") return b.age - a.age;
+      return 0;
     });
 
   return (
     <div className="container">
       <h2 className="title">CRUD Function</h2>
 
+      {/* User Form */}
       <form onSubmit={handleSubmit} className="form">
         {Object.keys(formData).map(key => (
           <input key={key} type={key === "email" ? "email" : "text"} name={key} placeholder={key.replace("_", " ")} value={formData[key]} onChange={handleChange} required />
@@ -96,6 +112,7 @@ const Crud = () => {
 
       <h2 className="title">All User Data</h2>
 
+      {/* Search & Filters */}
       <div className="filters">
         <input type="text" placeholder="Search by Name, Email, Address" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="search-input" />
         <select onChange={(e) => setFilterAgeRange(e.target.value)} className="select">
@@ -104,18 +121,37 @@ const Crud = () => {
         </select>
         <select onChange={(e) => setSortType(e.target.value)} className="select">
           <option value="">Sort By</option>
-          {[["salary-asc", "Salary (Low to High)"], ["salary-desc", "Salary (High to Low)"], ["age-asc", "Age (Young to Old)"], ["age-desc", "Age (Old to Young)"]].map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+          <option value="salary-asc">Salary (Low to High)</option>
+          <option value="salary-desc">Salary (High to Low)</option>
+          <option value="age-asc">Age (Young to Old)</option>
+          <option value="age-desc">Age (Old to Young)</option>
         </select>
       </div>
 
+      {/* User Table */}
       <table className="table">
         <thead>
-          <tr>{["Name", "Age", "Address", "Phone No", "Email", "Salary", "Actions"].map(header => <th key={header}>{header}</th>)}</tr>
+          <tr>
+            <th>Sr. No.</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Address</th>
+            <th>Phone No</th>
+            <th>Email</th>
+            <th>Salary</th>
+            <th>Actions</th>
+          </tr>
         </thead>
         <tbody>
-          {filteredUsers.map(user => (
+          {filteredUsers.map((user, index) => (
             <tr key={user.id} className="table-row">
-              {Object.values(user).slice(1).map((value, index) => <td key={index}>{value}</td>)}
+              <td>{index + 1}</td>
+              <td>{user.name}</td>
+              <td>{user.age}</td>
+              <td>{user.address}</td>
+              <td>{user.phone_no}</td>
+              <td>{user.email}</td>
+              <td>{user.salary}</td>
               <td>
                 <button onClick={() => handleEdit(user)} className="action-btn edit-btn">Edit</button>
                 <button onClick={() => handleDelete(user.id)} className="action-btn delete-btn">Delete</button>
